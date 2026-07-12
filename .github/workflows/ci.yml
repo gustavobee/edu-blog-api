@@ -1,0 +1,26 @@
+name: Integracao Continua (CI)
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  testes-automatizados:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 1. Baixar o código do repositório
+      uses: actions/checkout@v4
+
+    - name: 2. Instalar e configurar o Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: 3. Instalar as dependências do projeto
+      run: npm install
+
+    - name: 4. Rodar a bateria de testes unitários
+      run: npm test
