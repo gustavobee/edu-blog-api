@@ -1,8 +1,10 @@
 services:
   database:
     image: "postgres:16.0-alpine3.18"
-    env_file:
-      - .env
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=local_password
+      - POSTGRES_DB=edu_blog_db
     ports:
       - "5433:5432"
     volumes:
