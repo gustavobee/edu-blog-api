@@ -1,6 +1,6 @@
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize('postgres://postgres:local_password@localhost:5433/edu_blog_db')
+const sequelize = new Sequelize('postgres://postgres:local_password@database:5432/edu_blog_db')
 
 // async function testConnection() {
 //     try {

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "docker compose up -d && node --watch src/app.js",
+    "start": "docker compose up --build",
     "test": "jest --coverage"
   },
   "keywords": [],
