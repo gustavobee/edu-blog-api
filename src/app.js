@@ -1,22 +1,19 @@
 const express = require('express');
 const sequelize = require('./config/database');
-
-const Post = require('./models/post'); 
+const postRoutes = require('./routes/postRoutes'); 
 
 const app = express();
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('API do Blog Educacional rodando perfeitamente!');
-});
+app.use(postRoutes);
 
 sequelize.sync().then(() => {
-  console.log('Tabelas do banco de dados sincronizadas com sucesso!');
+  console.log('Database tables successfully synchronized!');
   
   app.listen(3000, () => {
-    console.log('Servidor rodando na porta 3000');
+    console.log('Server running on port 3000');
   });
 }).catch(error => {
-  console.error('Erro ao sincronizar o banco de dados:', error);
+  console.error('Error synchronizing the database: ', error);
 });
