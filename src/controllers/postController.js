@@ -18,19 +18,37 @@ module.exports = {
 
   async read(req, res) {
     try {
-        const posts = await Post.findAll();
+      const token = req.headers['access_token'];
+      let queryOptions = {};
 
-        return res.status(200).json(posts);
+      if (!token || token !== 'simulated_token') {
+        queryOptions = {
+          where: { status: 'publicado' }
+        };
+      }
+
+      const posts = await Post.findAll(queryOptions);
+      return res.status(200).json(posts);
+
     } catch (error) {
-        console.error("Error during reading: ", error);
-        return res.status(500).json({ error: 'Failed to read all posts' });
+      return res.status(500).json({ error: 'Erro ao buscar postagens' });
     }
   },
 
   async readById(req, res) {
     try {
         const { id } = req.params;
-        const post = await Post.findByPk(id);
+        const token = req.headers['access_token'];
+        
+        let queryOptions = {
+            where: { id: id }
+        };
+
+        if (!token || token !== 'simulated_token') {
+            queryOptions.where.status = 'publicado';
+        }
+
+        const post = await Post.findOne(queryOptions);
 
         if (!post) {
             return res.status(404).json({ error: 'Post not found' });
@@ -83,31 +101,33 @@ module.exports = {
   async search(req, res) {
     try {
         const { term } = req.query;
+        const token = req.headers['access_token'];
 
         if (!term) {
             return res.status(400).json({ error: 'Provide a valid search term' });
         }
 
-        const posts = await Post.findAll({
-            where: {
-                [Op.or]: [
-                    {
-                        title: {
-                            [Op.iLike]: `%${term}%`
-                        }
-                    },
-                    {
-                        content: {
-                            [Op.iLike]: `%${term}%`
-                        }
-                    },
-                    {
-                        description: {
-                            [Op.iLike]: `%${term}%`
-                        }
-                    }
+        const searchCondition = {
+            [Op.or]: [
+                { title: { [Op.iLike]: `%${term}%` } },
+                { content: { [Op.iLike]: `%${term}%` } },
+                { description: { [Op.iLike]: `%${term}%` } }
+            ]
+        };
+
+        let whereClause = searchCondition;
+
+        if (!token || token !== 'simulated_token') {
+            whereClause = {
+                [Op.and]: [
+                    searchCondition,
+                    { status: 'publicado' }
                 ]
-            }
+            };
+        }
+
+        const posts = await Post.findAll({
+            where: whereClause
         });
 
         return res.status(200).json(posts);
@@ -116,5 +136,4 @@ module.exports = {
         return res.status(500).json({ error: 'Failed to search the post' });
     }
   }
-
 };
