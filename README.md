@@ -21,6 +21,18 @@ Para cumprir os requisitos de segurança e acesso do sistema, a camada de rotas 
 *   **Alunos (Acesso Público):** Podem listar e buscar através de endpoints abertos. A lógica de negócio no Controller aplica um filtro automático para exibir apenas postagens com o status `publicado`.
 *   **Professores (Acesso Privado):** Têm acesso total ao sistema (CRUD completo, incluindo leitura de materiais em formato de rascunho ou arquivados). Requer o envio obrigatório do cabeçalho `access_token` com o valor `simulated_token` na requisição.
 
+### 3.1 Estrutura de Diretórios
+
+A organização do projeto segue uma adaptação limpa do padrão MVC (Model-View-Controller), focada na separação de responsabilidades para uma API RESTful:
+
+*   **`src/config/`**: Contém os arquivos de configuração, como a inicialização e conexão com o banco de dados PostgreSQL via Sequelize.
+*   **`src/controllers/`**: Abriga a lógica de negócio principal da aplicação. É aqui que os dados são processados, filtrados e devolvidos ao usuário final.
+*   **`src/middlewares/`**: Interceptadores de requisições. Contém a lógica de segurança, como a validação do `access_token` para segregar o acesso entre alunos e docentes.
+*   **`src/models/`**: Definições das entidades e tabelas do banco de dados, incluindo as tipagens e restrições (Enums, obrigatoriedades).
+*   **`src/routes/`**: Camada de roteamento do Express. Mapeia as URLs da API (os endpoints) para as funções específicas dentro dos Controllers.
+*   **`tests/`**: Arquivos de testes unitários construídos com a biblioteca Jest, garantindo a qualidade das rotas críticas.
+*   **`Arquivos Raiz`**: Contém a orquestração de infraestrutura (`Dockerfile`, `docker-compose.yml`), dependências do Node.js (`package.json`) e configuração do CI/CD (`.github/workflows/`).
+
 ## 4. Visão de Processo e Implementação
 
 ### 4.1. Setup e Execução (Local)
