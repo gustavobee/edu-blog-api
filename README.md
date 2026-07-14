@@ -1,115 +1,74 @@
 # 📚 FIAP Tech Challenge - EduBlog API
 
-## 🎓 Sobre o Projeto
-Este projeto é a entrega oficial do Tech Challenge da FIAP (Fase 2).
-## 🎯 O Problema e a Solução
-Atualmente, a maioria de professores e professoras da rede pública de educação não têm plataformas centralizadas e tecnológicas para postar suas aulas e transmitir conhecimento. 
-Após o sucesso de um MVP (Produto Mínimo Viável) inicial feito em OutSystems, este projeto representa a escalada da aplicação de blogging educacional para um panorama nacional. Refatorei o back-end para **Node.js** com persistência em banco de dados relacional (**PostgreSQL**), visando alta performance, estabilidade e facilidade de manutenção.
+## 1. Visão Geral e Escopo
+Este projeto é a entrega oficial do Tech Challenge da FIAP (Fase 2). O escopo principal é a criação de uma API RESTful para uma aplicação de blogging educacional voltada à rede pública de ensino. 
 
-## 🛠️ Tecnologias e Arquitetura
-O sistema foi estruturado seguindo o padrão **MVC (Model-View-Controller)** para garantir uma separação clara de responsabilidades entre as regras de negócio, rotas e acesso a dados. A infraestrutura foi desenhada com base em microsserviços (conteinerização), separando a aplicação do banco de dados, mas garantindo que conversem em uma rede isolada.
+Após o sucesso de um MVP inicial (desenvolvido em OutSystems), o projeto representa a escalada da solução para um panorama nacional. O foco é fornecer uma plataforma centralizada e tecnológica onde docentes possam postar e gerenciar aulas, e alunos possam consumir esse conhecimento de forma prática.
 
-*   **Linguagem/Framework:** Node.js com Express
-*   **Padrão Arquitetural:** MVC (Model-View-Controller)
-*   **Banco de Dados:** PostgreSQL 16
-*   **ORM:** Sequelize
-*   **Testes Unitários:** Jest
-*   **Orquestração/Infraestrutura:** Docker e Docker Compose
-*   **CI/CD (Integração Contínua):** GitHub Actions
+## 2. Metas e Restrições da Arquitetura
+A arquitetura foi desenhada para suportar a escalabilidade do projeto, respeitando as seguintes metas e restrições técnicas estabelecidas no edital:
+*   **Stack:** O back-end deve ser obrigatoriamente construído em **Node.js** com roteamento via framework **Express**.
+*   **Persistência de Dados:** Utilização de um banco de dados relacional (**PostgreSQL 16**), gerenciado através do ORM **Sequelize**.
+*   **Infraestrutura e Orquestração:** A aplicação e o banco de dados devem ser estritamente isolados e orquestrados em contêineres utilizando **Docker** e **Docker Compose**.
+*   **Qualidade de Código:** Exigência de no mínimo **20% de cobertura de testes unitários** focados nas operações críticas da aplicação (Criação, Edição e Exclusão).
+*   **Automação (CI/CD):** Pipeline de Integração Contínua configurado via **GitHub Actions** para validação automática de testes.
 
-## 🚀 Setup Inicial (Como rodar o projeto)
-O projeto foi estruturado para ser totalmente *plug-and-play*. Todos os serviços (API e Banco de Dados) estão orquestrados via Docker Compose.
+## 3. Visão Lógica
+A aplicação foi estruturada seguindo o padrão **MVC (Model-View-Controller)**, garantindo uma separação clara entre a camada de persistência de dados, as regras de negócio e o roteamento das requisições.
 
-**Pré-requisitos:**
-*   Docker e Docker Compose instalados.
-*   Node.js (versão 24 ou superior) instalado localmente para rodar os testes isoladamente.
+**Segurança e Controle de Acesso (Segregação de Perfis):**
+Para cumprir os requisitos de segurança e acesso do sistema, a camada de rotas conta com um Middleware de autenticação simulada que dita a lógica de permissões:
+*   **Alunos (Acesso Público):** Podem listar e buscar através de endpoints abertos. A lógica de negócio no Controller aplica um filtro automático para exibir apenas postagens com o status `publicado`.
+*   **Professores (Acesso Privado):** Têm acesso total ao sistema (CRUD completo, incluindo leitura de materiais em formato de rascunho ou arquivados). Requer o envio obrigatório do cabeçalho `access_token` com o valor `simulated_token` na requisição.
 
-**Passo a passo:**
+## 4. Visão de Processo e Implementação
 
-1. Clone este repositório:
+### 4.1. Setup e Execução (Local)
+A aplicação foi desenvolvida para ser *plug-and-play*.
+1. Clone o repositório:
    ```bash
-   git clone [URL_DO_SEU_REPOSITORIO]
-   cd [NOME_DA_PASTA]
-2. Inicie os contêineres:
-    ```bash
-    docker compose up --build
-*O Docker irá baixar o PostgreSQL, construir a imagem da API, expor a aplicação na porta `3000` e o banco de dados na porta `5433` (externa) e `5432` (interna).*
+   git clone https://github.com/gustavobee/edu-blog-api.git
+   cd edu-blog-api
+2. Inicie a orquestração dos contêineres:
+   ```bash
+   docker compose up --build
+*(O Docker exporá a aplicação na porta `3000` e o banco de dados na porta `5433` do host).*
 
-## 🧪 Cobertura de Testes
+### 4.2. Documentação da API (Endpoints)
 
-O projeto conta com testes unitários focados nas operações críticas (Criação, Edição e Exclusão). Para validar a cobertura de código localmente (sem a necessidade de subir o Docker), execute:
+A API responde na URL base: `http://localhost:3000`
+
+**Rotas Públicas (Foco em Alunos):**
+
+* `GET /posts` : Retorna a lista de postagens disponíveis (publicadas).
+* `GET /posts/:id` : Retorna o conteúdo completo de uma postagem específica.
+* `GET /posts/search?term=palavra_chave` : Busca postagens filtrando o termo informado no Título, Conteúdo ou Descrição.
+
+**Rotas Privadas (Foco em Docentes - Exigem o header `access_token`):**
+
+* `POST /posts` : Cria uma nova postagem (Requer JSON no body com: `title`, `author`, `content`, `description`, `status`, `subject`, `contentType`).
+* `PUT /posts/:id` : Edita os dados de uma postagem existente.
+* `DELETE /posts/:id` : Remove a postagem do banco de dados de forma definitiva.
+
+### 4.3. Testes Unitários
+
+Os testes foram implementados com a biblioteca **Jest**, validando o comportamento isolado do Controller. Para rodar a suíte localmente (sem a necessidade de subir o Docker) e verificar o relatório de cobertura:
 
 ```bash
 npm install
 npm test
 ```
 
-*A cobertura de testes atual do Controller principal ultrapassa os **20%** exigidos no edital, atingindo **50%**.*
+*A cobertura atual de testes no arquivo `postController` atinge a marca de **34.42%**, superando de forma segura a meta imposta.*
 
-## 📡 Guia de Uso das APIs (Endpoints)
+## 5. Decisões Técnicas e Desafios
+Durante a implementação individual desta arquitetura, algumas decisões precisaram ser tomadas para contornar desafios técnicos reais:
 
-A API responde na URL base: `http://localhost:3000`
-
-### 1. Criar Postagem
-
-* **POST** `/posts`
-* **Descrição:** Permite que docentes criem novas postagens.
-* **Body (JSON):**
-```json
-{
-  "title": "A Revolução Francesa e seus Impactos",
-  "author": "Professora Mariana",
-  "content": "Neste resumo, revisamos os antecedentes...",
-  "description": "Material de revisão sobre as causas.",
-  "status": "publicado",
-  "subject": "historia",
-  "contentType": "resumo"
-}
-```
-
-
-
-### 2. Listar Todas as Postagens
-
-* **GET** `/posts`
-* **Descrição:** Retorna a lista completa de aulas e materiais disponíveis.
-
-### 3. Ler uma Postagem Específica
-
-* **GET** `/posts/:id`
-* **Descrição:** Retorna o conteúdo completo de um post baseado no seu ID.
-
-### 4. Buscar Postagens (Search)
-
-* **GET** `/posts/search?term=palavra_chave`
-* **Descrição:** Busca posts filtrando o termo informado no Título ou no Conteúdo.
-
-### 5. Atualizar Postagem
-
-* **PUT** `/posts/:id`
-* **Descrição:** Edita os dados de um post existente.
-* **Body (JSON):**
-```json
-{
-  "status": "arquivado",
-  "contentType": "tarefa"
-}
-```
-
-
-
-### 6. Excluir Postagem
-
-* **DELETE** `/posts/:id`
-* **Descrição:** Remove a postagem do banco de dados.
-
-## 🧗‍♂️ Relato de Experiências e Desafios
-
-Durante o desenvolvimento deste Tech Challenge, enfrentei e superei alguns desafios técnicos:
-
-1. **Orquestração de Redes no Docker:** Passei um tempo quebrando a cabeça com a comunicação entre Node e PostgreSQL. Tava testando localmente e funcionava tudo, mas dentro do container não achava o banco. Aí descobri que `localhost` dentro da API não leva pro host mesmo, é relativo ao container. Criei uma rede unificada no `docker-compose.yml` e mudei a connection string pra apontar pro nome do serviço (`database`).
-2. **Automação com GitHub Actions:** A esteira de CI quebrou nos primeiros testes devido à descontinuação do suporte oficial ao Node 20 por parte dos *runners* do GitHub. A solução rápida foi refatorar o arquivo `ci.yml` para exigir a versão 24 do Node.js, garantindo estabilidade e fluidez na Integração Contínua.
-3. **Validações de Modelagem e MVC:** A separação rigorosa de responsabilidades exigida pelo MVC, atrelada às validações restritas do banco de dados, demandou um mapeamento muito cuidadoso. O rigor do PostgreSQL com restrições *allowNull* e *Enums* no nível do Model reforçou a importância de sanitizar entradas no Controller, especialmente ao gerenciar os padrões de nomenclatura *camelCase* vs *snake_case*.
+*   **Comunicação de Rede no Docker:** Ao conteinerizar os serviços, a conexão clássica via `localhost` entre a API Node e o banco PostgreSQL falhava devido ao isolamento intrínseco dos contêineres. A solução arquitetural adotada foi desenhar uma rede bridge unificada no arquivo `docker-compose.yml` e configurar a string do Sequelize para resolver o nome do serviço DNS interno (`database`).
+*   **Manutenção de CI/CD:** A esteira inicial configurada no GitHub Actions apresentou falhas prematuras causadas pela descontinuação do suporte oficial ao Node 20 por parte dos *runners* da plataforma. A decisão de refatoração rápida envolveu atualizar o ambiente da esteira para exigir a versão 24 do Node.js, assegurando a fluidez da Integração Contínua.
+*   **Tratamento de Restrições (Model vs Controller):** O mapeamento restrito do banco relacional (com uso intenso de `allowNull` e restrições de `Enums`) exigiu cautela. O rigor do Sequelize reforçou a decisão de aplicar lógicas de tratamento robustas no Controller. Isso garantiu que o tráfego de dados na aplicação respeitasse o *camelCase* do JavaScript sem ferir as travas estruturais de integridade das tabelas do banco.
+*   **Autenticação Dinâmica e Segregação de Acesso:** Para separar a visão de alunos e professores sem duplicar as rotas de leitura (`GET`), a decisão técnica foi aplicar um Middleware de validação via *header* (`access_token`). O desafio de negócio foi resolvido injetando uma regra no Controller: requisições não autenticadas (alunos) recebem silenciosamente um filtro *Where* no Sequelize para retornar apenas conteúdos com status `publicado`, enquanto requisições autenticadas (professores) acessam a base integral.
+*   **Imutabilidade e Cache do Docker:** Durante a refatoração das lógicas de segurança, as validações via Postman apresentaram inconsistências. O desafio foi gerenciar a ausência de *hot-reload* do contêiner configurado para simular produção. A solução exigiu a compreensão da imutabilidade das imagens no Docker, sendo necessário forçar uma nova construção (`docker compose up --build`) para que o ambiente isolado absorvesse as alterações feitas no código-fonte local.
 
 ---
 
