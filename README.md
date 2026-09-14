@@ -84,6 +84,23 @@ Durante a implementação individual desta arquitetura, algumas decisões precis
 
 ---
 
+## 6. Fase 3 - Front-End em React & Guia Didático
+
+Na **Fase 3**, o sistema foi expandido com uma aplicação web moderna construída com **React + Vite**, permitindo a interação de alunos e professores através de uma interface intuitiva e responsiva.
+
+* **Front-End React**: Localizado na pasta `frontend/`.
+* **Guia Didático Completo**: Veja o arquivo [GUIA_FASE_3.md](file:///home/gustavobee/fiap/fase-2/tech-challenge/GUIA_FASE_3.md) para entender a teoria, arquitetura, segregação de visões (Aluno vs. Docente) e o passo a passo detalhado do desenvolvimento.
+
+### Como Executar o Projeto Completo com Docker:
+```bash
+docker compose up --build
+```
+* **Front-End (React + Nginx)**: `http://localhost:8080`
+* **API REST (Node.js/Express)**: `http://localhost:3000`
+* **Banco de Dados (PostgreSQL)**: `localhost:5433`
+
+---
+
 **Desenvolvido por:**
 
 * Gustavo Bee Campos Rocha - rm373106
