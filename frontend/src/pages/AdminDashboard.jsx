@@ -137,6 +137,12 @@ const AdminDashboard = () => {
           >
             Rascunhos ({posts.filter((p) => p.status === "rascunho").length})
           </button>
+          <button
+            onClick={() => setFilterStatus("arquivado")}
+            className={`btn btn-sm ${filterStatus === "arquivado" ? "btn-primary" : "btn-secondary"}`}
+          >
+            Arquivados ({posts.filter((p) => p.status === "arquivado").length})
+          </button>
         </div>
       </div>
 
