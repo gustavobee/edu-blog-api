@@ -1,7 +1,14 @@
-import React from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { BookOpen, LogIn, LogOut, ShieldCheck, Home, LayoutDashboard } from 'lucide-react';
+import React from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import {
+  BookOpen,
+  LogIn,
+  LogOut,
+  ShieldCheck,
+  Home,
+  LayoutDashboard,
+} from "lucide-react";
 
 const Header = () => {
   const { isAuthenticated, user, logout } = useAuth();
@@ -10,30 +17,30 @@ const Header = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate("/");
   };
 
   return (
     <header className="navbar">
       <div className="navbar-container">
         <Link to="/" className="logo-brand">
-          <BookOpen size={28} style={{ color: '#6366f1' }} />
+          <BookOpen size={28} style={{ color: "#ffffff" }} />
           <span>EduBlog</span>
         </Link>
 
         <nav className="nav-links">
-          <Link 
-            to="/" 
-            className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
+          <Link
+            to="/"
+            className={`nav-link ${location.pathname === "/" ? "active" : ""}`}
           >
             <Home size={18} />
             <span>Início</span>
           </Link>
 
           {isAuthenticated && (
-            <Link 
-              to="/admin" 
-              className={`nav-link ${location.pathname.startsWith('/admin') ? 'active' : ''}`}
+            <Link
+              to="/admin"
+              className={`nav-link ${location.pathname.startsWith("/admin") ? "active" : ""}`}
             >
               <LayoutDashboard size={18} />
               <span>Painel Admin</span>
@@ -41,14 +48,14 @@ const Header = () => {
           )}
 
           {isAuthenticated ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
               <div className="user-badge">
                 <ShieldCheck size={16} />
-                <span>{user?.name || 'Professor'}</span>
+                <span>{user?.name || "Professor"}</span>
               </div>
-              <button 
-                onClick={handleLogout} 
-                className="btn btn-secondary btn-sm"
+              <button
+                onClick={handleLogout}
+                className="btn btn-secondary btn-sm btn-cancel"
                 title="Encerrar sessão de docente"
               >
                 <LogOut size={16} />
