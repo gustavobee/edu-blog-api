@@ -20,7 +20,7 @@ const PostForm = () => {
     description: "",
     content: "",
     status: "publicado",
-    subject: "Programação",
+    subject: "Matemática",
     contentType: "Aula",
   });
 
@@ -40,7 +40,7 @@ const PostForm = () => {
             description: data.description || "",
             content: data.content || "",
             status: data.status || "publicado",
-            subject: data.subject || "Programação",
+            subject: data.subject || "Matemática",
             contentType: data.contentType || "Aula",
           });
         } catch (err) {
@@ -157,7 +157,7 @@ const PostForm = () => {
               type="text"
               name="title"
               className="form-input"
-              placeholder="Ex: Introdução à Algoritmos e Lógica de Programação"
+              placeholder="Ex: Fundamentos de Trigonometria e Triângulo Retângulo"
               value={formData.title}
               onChange={handleChange}
               required
@@ -192,12 +192,12 @@ const PostForm = () => {
                 value={formData.subject}
                 onChange={handleChange}
               >
-                <option value="Programação">Programação</option>
-                <option value="Matemática">Matemática</option>
-                <option value="História">História</option>
-                <option value="Física">Física</option>
-                <option value="Português">Português</option>
-                <option value="Geral">Geral</option>
+                <option value="matematica">Matemática</option>
+                <option value="historia">História</option>
+                <option value="geografia">Geografia</option>
+                <option value="portugues">Português</option>
+                <option value="filosofia">Filosofia</option>
+                <option value="ciencias">Ciências</option>
               </select>
             </div>
           </div>
@@ -223,6 +223,9 @@ const PostForm = () => {
                 <option value="rascunho">
                   Rascunho (Privado para Professores)
                 </option>
+                <option value="arquivado">
+                  Arquivado (Privado para Professores)
+                </option>
               </select>
             </div>
 
@@ -234,10 +237,12 @@ const PostForm = () => {
                 value={formData.contentType}
                 onChange={handleChange}
               >
-                <option value="Aula">Aula</option>
-                <option value="Artigo">Artigo</option>
-                <option value="Exercício">Exercício</option>
-                <option value="Aviso">Aviso</option>
+                <option value="aula_teorica">Aula</option>
+                <option value="material_complementar">
+                  Material Complementar
+                </option>
+                <option value="tarefa">Tarefa</option>
+                <option value="aviso">Aviso</option>
               </select>
             </div>
           </div>
