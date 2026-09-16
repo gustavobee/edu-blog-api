@@ -1,12 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,600;0,6..72,700;1,6..72,600&display=swap");
 :root {
-  /* Fundo escuro sóbrio (slate/navy escuro sem saturação exagerada) */
   --bg-primary: #0b0f19;
   --bg-secondary: #131b2e;
   --bg-card: #151e32;
   --bg-card-hover: #1c2742;
 
-  /* Cor institucional única e sólida (Azul Royal Acadêmico) em vez de neon */
   --accent-primary: #3b82f6;
   --accent-primary-hover: #2563eb;
   --accent-danger: #ef4444;
@@ -27,7 +25,6 @@
   --radius-lg: 10px;
   --radius-full: 9999px;
 
-  /* Sombra sutil e realista, sem 'glow' neon */
   --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
@@ -76,7 +73,6 @@ a {
   padding: 2.5rem 1.5rem;
 }
 
-/* Glassmorphism Header */
 .navbar {
   position: sticky;
   top: 0;
@@ -111,7 +107,6 @@ a {
     opacity 0.2s ease;
 }
 
-/* 1. Trava o SVG como bloco e sobe 1px para alinhar o topo com o 'E' */
 .logo-brand svg {
   display: block;
   flex-shrink: 0;
@@ -147,7 +142,6 @@ a {
   background: rgba(255, 255, 255, 0.05);
 }
 
-/* Ajuste recomendado para o .user-badge */
 .user-badge {
   display: flex;
   align-items: center;

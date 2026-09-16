@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Verificar se já existe um token armazenado ao carregar a aplicação
+    // Verifica se já existe um token armazenado ao carregar a aplicação
     const token = localStorage.getItem('access_token');
     const savedUser = localStorage.getItem('user_info');
 
@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (email, password) => {
-    // Simulação de Login conforme especificação do Back-End
+    // Simulação de login conforme especificação do backend
     // O backend aceita 'simulated_token' no header 'access_token' para dar privilégios de Professor
     const simulatedUser = {
       email: email || 'professor@fiap.com.br',
