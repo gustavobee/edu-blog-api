@@ -12,12 +12,14 @@ const PostCard = ({ post, isAdmin = false, onDelete }) => {
     <article className="post-card">
       <div>
         <div className="post-meta">
-          {post.subject && (
-            <span className="badge badge-subject">{formatSubject(post.subject)}</span>
-          )}
-          {post.contentType && (
-            <span className="badge badge-content-type">{formatContentType(post.contentType)}</span>
-          )}
+          <div className="post-badges">
+            {post.subject && (
+              <span className="badge badge-subject">{formatSubject(post.subject)}</span>
+            )}
+            {post.contentType && (
+              <span className="badge badge-content-type">{formatContentType(post.contentType)}</span>
+            )}
+          </div>
           {isAdmin && (
             <span className={`badge ${post.status === 'publicado' ? 'badge-status-published' : post.status === 'arquivado' ? 'badge-status-archived' : 'badge-status-draft'}`}>
               {formatStatus(post.status) || 'Rascunho'}
@@ -38,14 +40,14 @@ const PostCard = ({ post, isAdmin = false, onDelete }) => {
           <span>{formattedDate}</span>
         </div>
 
-        <div style={{ marginTop: '1.25rem', display: 'flex', gap: '0.5rem', justifyContent: 'space-between' }}>
-          <Link to={`/posts/${post.id}`} className="btn btn-secondary btn-sm" style={{ flex: 1 }}>
+        <div className="post-card-actions">
+          <Link to={`/posts/${post.id}`} className="btn btn-secondary btn-sm post-card-btn-read">
             <span>Ler mais</span>
             <ArrowRight size={14} />
           </Link>
 
           {isAdmin && (
-            <>
+            <div className="post-card-admin-btns">
               <Link 
                 to={`/admin/posts/editar/${post.id}`} 
                 className="btn btn-secondary btn-sm" 
@@ -60,7 +62,7 @@ const PostCard = ({ post, isAdmin = false, onDelete }) => {
               >
                 <Trash2 size={14} />
               </button>
-            </>
+            </div>
           )}
         </div>
       </div>

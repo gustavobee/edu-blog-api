@@ -4,7 +4,6 @@ import api from "../services/api";
 import PostCard from "../components/PostCard";
 import {
   PlusCircle,
-  LayoutDashboard,
   AlertCircle,
   Filter,
   RefreshCw,
@@ -61,64 +60,38 @@ const AdminDashboard = () => {
 
   return (
     <div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexWrap: "wrap",
-          gap: "1rem",
-          marginBottom: "2rem",
-        }}
-      >
-        <div>
-          <h1 style={{ fontSize: "2rem", fontWeight: 800 }}>
+      <div className="admin-header">
+        <div className="admin-header-info">
+          <h1 className="admin-title">
             Painel Administrativo do Docente
           </h1>
-          <p
-            style={{
-              color: "#94a3b8",
-              fontSize: "0.95rem",
-              marginTop: "0.25rem",
-            }}
-          >
+          <p className="admin-subtitle">
             Gerencie o ciclo de vida completo de aulas, artigos e rascunhos.
           </p>
         </div>
 
-        <div style={{ display: "flex", gap: "0.75rem" }}>
+        <div className="admin-actions">
           <button
             onClick={fetchAdminPosts}
             className="btn btn-secondary btn-sm"
             title="Atualizar lista"
           >
             <RefreshCw size={16} />
-            Atualizar
+            <span>Atualizar</span>
           </button>
-          <Link to="/admin/posts/novo" className="btn btn-primary">
-            <PlusCircle size={18} />
+          <Link to="/admin/posts/novo" className="btn btn-primary btn-sm">
+            <PlusCircle size={16} />
             <span>Nova Postagem</span>
           </Link>
         </div>
       </div>
 
-      <div
-        style={{
-          background: "var(--bg-card)",
-          padding: "1rem 1.5rem",
-          borderRadius: "14px",
-          border: "1px solid var(--border-color)",
-          marginBottom: "2rem",
-          display: "flex",
-          alignItems: "center",
-          gap: "1rem",
-        }}
-      >
-        <Filter size={18} style={{ color: "#64748b" }} />
-        <span style={{ fontSize: "0.9rem", color: "#94a3b8", fontWeight: 600 }}>
-          Filtrar por Status:
-        </span>
-        <div style={{ display: "flex", gap: "0.5rem" }}>
+      <div className="admin-filter-bar">
+        <div className="admin-filter-label">
+          <Filter size={16} style={{ color: "#64748b" }} />
+          <span>Filtrar por Status:</span>
+        </div>
+        <div className="admin-filter-buttons">
           <button
             onClick={() => setFilterStatus("todos")}
             className={`btn btn-sm ${filterStatus === "todos" ? "btn-primary" : "btn-secondary"}`}
