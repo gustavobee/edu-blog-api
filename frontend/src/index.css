@@ -270,6 +270,12 @@ a {
   border: 1px solid rgba(6, 182, 212, 0.3);
 }
 
+.badge-content-type {
+  background: rgba(99, 102, 241, 0.15);
+  color: #a5b4fc;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
 .badge-status-published {
   background: rgba(16, 185, 129, 0.15);
   color: #6ee7b7;
@@ -280,6 +286,12 @@ a {
   background: rgba(245, 158, 11, 0.15);
   color: #fcd34d;
   border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.badge-status-archived {
+  background: rgba(148, 163, 184, 0.15);
+  color: #cbd5e1;
+  border: 1px solid rgba(148, 163, 184, 0.3);
 }
 
 .post-title {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../services/api';
 import { ArrowLeft, User, Calendar, MessageSquare, Send, BookOpen } from 'lucide-react';
+import { formatSubject, formatContentType } from '../constants/postConstants';
 
 const PostDetails = () => {
   const { id } = useParams();
@@ -88,8 +89,8 @@ const PostDetails = () => {
 
       <header style={{ marginBottom: '2rem' }}>
         <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
-          {post.subject && <span className="badge badge-subject">{post.subject}</span>}
-          {post.contentType && <span className="badge badge-subject" style={{ background: 'rgba(99, 102, 241, 0.15)', color: '#a5b4fc', borderColor: 'rgba(99, 102, 241, 0.3)' }}>{post.contentType}</span>}
+          {post.subject && <span className="badge badge-subject">{formatSubject(post.subject)}</span>}
+          {post.contentType && <span className="badge badge-content-type">{formatContentType(post.contentType)}</span>}
         </div>
 
         <h1 style={{ fontSize: '2.4rem', fontWeight: 800, lineHeight: 1.2, marginBottom: '1rem', color: '#f8fafc' }}>

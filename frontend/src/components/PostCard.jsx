@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { User, Calendar, ArrowRight, Edit3, Trash2 } from 'lucide-react';
+import { formatSubject, formatContentType, formatStatus } from '../constants/postConstants';
 
 const PostCard = ({ post, isAdmin = false, onDelete }) => {
   const formattedDate = post.createdAt 
@@ -12,11 +13,14 @@ const PostCard = ({ post, isAdmin = false, onDelete }) => {
       <div>
         <div className="post-meta">
           {post.subject && (
-            <span className="badge badge-subject">{post.subject}</span>
+            <span className="badge badge-subject">{formatSubject(post.subject)}</span>
+          )}
+          {post.contentType && (
+            <span className="badge badge-content-type">{formatContentType(post.contentType)}</span>
           )}
           {isAdmin && (
-            <span className={`badge ${post.status === 'publicado' ? 'badge-status-published' : 'badge-status-draft'}`}>
-              {post.status || 'rascunho'}
+            <span className={`badge ${post.status === 'publicado' ? 'badge-status-published' : post.status === 'arquivado' ? 'badge-status-archived' : 'badge-status-draft'}`}>
+              {formatStatus(post.status) || 'Rascunho'}
             </span>
           )}
         </div>

@@ -20,8 +20,8 @@ const PostForm = () => {
     description: "",
     content: "",
     status: "publicado",
-    subject: "Matemática",
-    contentType: "Aula",
+    subject: "matematica",
+    contentType: "aula_teorica",
   });
 
   const [loading, setLoading] = useState(isEditing);
@@ -40,8 +40,8 @@ const PostForm = () => {
             description: data.description || "",
             content: data.content || "",
             status: data.status || "publicado",
-            subject: data.subject || "Matemática",
-            contentType: data.contentType || "Aula",
+            subject: data.subject || "matematica",
+            contentType: data.contentType || "aula_teorica",
           });
         } catch (err) {
           console.error("Erro ao carregar dados do post:", err);
