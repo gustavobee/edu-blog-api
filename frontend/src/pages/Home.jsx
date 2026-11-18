@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import api from "../services/api";
 import PostCard from "../components/PostCard";
+import { useAuth } from "../contexts/AuthContext";
 import { Search, Sparkles, BookOpen, AlertCircle } from "lucide-react";
 
 const Home = () => {
+  const { isAuthenticated } = useAuth();
   const [posts, setPosts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
@@ -21,7 +23,12 @@ const Home = () => {
       } else {
         response = await api.get("/posts");
       }
-      setPosts(response.data || []);
+      const data = response.data || [];
+      setPosts(
+        isAuthenticated
+          ? data
+          : data.filter((post) => post.status === "publicado"),
+      );
     } catch (err) {
       console.error("Erro ao buscar posts:", err);
       setError(
@@ -33,12 +40,16 @@ const Home = () => {
   };
 
   useEffect(() => {
+    if (!isAuthenticated) {
+      setPosts((prev) => prev.filter((post) => post.status === "publicado"));
+    }
+
     const delayDebounceFn = setTimeout(() => {
       fetchPosts(searchTerm);
     }, 400);
 
     return () => clearTimeout(delayDebounceFn);
-  }, [searchTerm]);
+  }, [searchTerm, isAuthenticated]);
 
   return (
     <div>
