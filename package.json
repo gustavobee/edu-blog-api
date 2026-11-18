@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "docker compose up --build",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "mobile:start": "cd mobile && npx expo start"
   },
   "keywords": [],
   "author": "",
